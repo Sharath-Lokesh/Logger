@@ -1,3 +1,3 @@
 # Logger
-c++ implementation of Logger library (Logger.h).
-Log Levels : INFO, WARN, DEBUG.
+c++ implementation of Logger library (Logger.h).\
+**Log Levels** : INFO, WARN, DEBUG.
