@@ -1,6 +1,6 @@
 /*
- * Author: Sharath Lokesh
- */
+* Author: Sharath Lokesh
+*/
 #include "Logger.h"
 
 void test_case_1(Logger *log)

@@ -1,6 +1,6 @@
 /*
- * Author: Sharath Lokesh
- */
+* Author: Sharath Lokesh
+*/
 #pragma once
 
 #include <cstdlib> // for std::exit()
@@ -77,7 +77,7 @@ class Logger
             std::stringstream ss;
             ((ss << " " << args), ...);
             std::string formattedMsg = ss.str();
-            
+
             LogMessage(LogLevel::INFO, formattedMsg.c_str());
         }
 
