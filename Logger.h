@@ -6,8 +6,9 @@
 #include <cstdlib> // for std::exit()
 #include <iostream>
 #include <string>
+#include <sstream>
 
-enum LogLevel
+enum class LogLevel
 {
     INFO,
     WARN,
@@ -16,10 +17,11 @@ enum LogLevel
 
 class Logger
 {
-    private:
         LogLevel _level = LogLevel::INFO;
         
-        void PrintLog(LogLevel lvl, const char* msg)
+        //Print Log Message
+
+        void PrintLog(LogLevel lvl, const char* msg) 
         {
             const char* str;
             switch(lvl)
@@ -40,7 +42,7 @@ class Logger
         
     public:
         //constructor
-        Logger(LogLevel level = LogLevel::INFO) : _level(level){}
+        explicit Logger(LogLevel level = LogLevel::INFO) : _level(level){}
         
         //method to set log level
         void SetLevel(char char_level)
@@ -68,21 +70,48 @@ class Logger
                 PrintLog(lvl, message);
         }
         
-        //Warn
-        void Warn(const char* msg)
-        {
-            LogMessage(LogLevel::WARN, msg);
-        }
-        
         //INFO
-        void Info(const char* msg)
+        template <typename... Args>
+        void Info(Args&&... args)
         {
-            LogMessage(LogLevel::INFO, msg);
+            std::stringstream ss;
+            ((ss << " " << args), ...);
+            std::string formattedMsg = ss.str();
+            
+            LogMessage(LogLevel::INFO, formattedMsg.c_str());
         }
-        
-        //DEBUG
-        void Debug(const char* msg)
+
+        //Warn
+        template <typename... Args>
+        void Warn(Args&&... args)
         {
-            LogMessage(LogLevel::DEBUG, msg);
+            std::stringstream ss;
+            ((ss << " " << args), ...);
+            std::string formattedMsg = ss.str();
+
+            LogMessage(LogLevel::WARN, formattedMsg.c_str());
+        }
+                
+        //DEBUG
+        template <typename... Args>
+        void Debug(Args&&... args)
+        {
+            std::stringstream ss;
+            ((ss << " " << args), ...);
+            std::string formattedMsg = ss.str();
+
+            LogMessage(LogLevel::DEBUG, formattedMsg.c_str());
+        }
+
+        //ERROR
+        template <typename... Args>
+        void Error(Args&&... args)
+        {
+            std::stringstream ss;
+            ((ss << " " << args), ...);
+            std::string formattedMsg = ss.str();
+
+            std::cerr << "ERROR: " << formattedMsg << std::endl;
+            std::exit(1); //Terminate the program
         }
 };
